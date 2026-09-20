@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Monitor</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">NM</div>
+      <div><strong>NETWORK</strong><span>MONITOR</span></div>
+    </div>
+    <nav>
+      <a class="active" href="#overview">◈ <span>Overview</span></a>
+      <a href="#devices">▣ <span>Devices</span></a>
+      <a href="#device-intel">◫ <span>Device Intel</span></a>
+      <a href="#performance">⌁ <span>Performance</span></a>
+      <a href="#alerts">⚠ <span>Alerts</span></a>
+      <a href="#logs">☷ <span>System Logs</span></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="live-dot"></div>
+      <div><small>MONITOR STATUS</small><b>LIVE</b></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">LOCAL NETWORK / REAL-TIME TELEMETRY</p>
+        <h1>Network Monitoring Dashboard</h1>
+      </div>
+      <div class="top-actions">
+        <span id="updated">Updating...</span>
+        <button id="discoverBtn">↻ Discover Now</button>
+      </div>
+    </header>
+
+    <section id="overview" class="stats-grid">
+      <div class="stat-card"><div class="stat-icon green">◉</div><div><span>DEVICES ONLINE</span><strong id="online">0</strong></div><em>reachable</em></div>
+      <div class="stat-card"><div class="stat-icon red">○</div><div><span>DEVICES OFFLINE</span><strong id="offline">0</strong></div><em>not responding</em></div>
+      <div class="stat-card"><div class="stat-icon blue">⌁</div><div><span>AVG LATENCY</span><strong id="latency">0<small> ms</small></strong></div><em>ICMP response</em></div>
+      <div class="stat-card"><div class="stat-icon purple">⇄</div><div><span>PACKET CHECKS</span><strong id="packets">0</strong></div><em>monitor cycles</em></div>
+    </section>
+
+    <section class="grid-two">
+      <div id="devices" class="panel">
+        <div class="panel-head"><div><span class="section-label">NETWORK INVENTORY</span><h2>Device Status</h2></div><span class="badge" id="deviceCount">0 DEVICES</span></div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>STATUS</th><th>IP ADDRESS</th><th>TYPE</th><th>MAC ADDRESS</th><th>LATENCY</th><th>LAST CHECK</th></tr></thead>
+            <tbody id="deviceRows"><tr><td colspan="6" class="empty">Scanning local network...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="alerts" class="panel">
+        <div class="panel-head"><div><span class="section-label">EVENT STREAM</span><h2>Alerts</h2></div><span class="live-pill">● LIVE</span></div>
+        <div id="alertsList" class="alerts-list"><div class="empty">No alerts yet.</div></div>
+      </div>
+    </section>
+
+    
+    <section id="device-intel" class="panel">
+      <div class="panel-head">
+        <div><span class="section-label">DEVICE INTELLIGENCE</span><h2>OS & Network Details</h2></div>
+        <span class="chart-note">OS detection is heuristic</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>IP ADDRESS</th><th>OS ESTIMATE</th><th>TTL</th><th>TYPE</th><th>STATUS</th></tr></thead>
+          <tbody id="intelRows"><tr><td colspan="5" class="empty">Waiting for device data...</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="notify" class="panel notify-panel">
+      <div class="panel-head">
+        <div><span class="section-label">ADMIN COMMUNICATION</span><h2>Send Dashboard Notification</h2></div>
+        <span class="badge">BROWSER ALERT</span>
+      </div>
+      <div class="notify-body">
+        <input id="notifyMessage" maxlength="180" placeholder="Example: Network maintenance starts in 10 minutes.">
+        <button id="notifyBtn">Send Notification</button>
+      </div>
+      <p class="hint">This sends a message to the monitoring dashboard/browser. It does not remotely message another device.</p>
+    </section>
+
+    <section id="performance" class="panel chart-panel">
+      <div class="panel-head"><div><span class="section-label">TELEMETRY</span><h2>Response Time</h2></div><span class="chart-note">Rolling average • 60 samples</span></div>
+      <div class="chart-box"><canvas id="latencyChart"></canvas></div>
+    </section>
+
+    <section id="logs" class="panel">
+      <div class="panel-head"><div><span class="section-label">AUDIT TRAIL</span><h2>System Logs</h2></div><button class="text-btn" id="clearBtn">Clear logs</button></div>
+      <div id="logsList" class="logs-list"><div class="empty">Waiting for telemetry...</div></div>
+    </section>
+
+    <footer>
+      <span>NETWORK MONITOR v1.0</span>
+      <span>Local monitoring only • Flask backend</span>
+    </footer>
+  </main>
+</div>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
